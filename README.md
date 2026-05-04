@@ -1,8 +1,9 @@
-# InventraApplication
+# Inventra Application
 
-MERN retail sales, inventory management, and analytics system.
+Inventra is a inventory management system desgined and build for small retail stores and owners. In order for them to switch to digital inventory management making it faster,secure and more accurate. 
 
-The app supports multiple shop users. Each signed-up user gets their own products, inventory, sales, analytics, recommendations, and movement history.
+The app is build using mern stack, and is scalable and highly operable. 
+It is provides the work for small retail stores so it is a single user app and has limited features which are to be added in the future.
 
 ## Run Server
 
@@ -25,7 +26,12 @@ Frontend: `http://127.0.0.1:5173`
 
 Backend: `http://localhost:5000`
 
-Demo seed login:
+## Run seed (for dummy data only )
 
-- Email: `admin@inventra.com`
-- Password: `admin123`
+Seed is mainly used for dummy data so it can be ignored or used.
+
+``` bash
+cd backend
+npm install
+npm run seed
+

@@ -21,8 +21,8 @@ export default function Navbar() {
   return (
     <header className="mb-5 flex items-center justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-bold">{user?.shopName || "Retail Management"}</h1>
-        <p className="text-sm text-navy/60">Welcome back, {user?.name || "Retailer"}</p>
+        <h1 className="text-2xl font-bold">{user?.isAdmin ? "Admin Dashboard" : user?.shopName || "Retail Management"}</h1>
+        <p className="text-sm text-navy/60">Welcome back, {user?.isAdmin ? "Admin User" : user?.name || "Retailer"}</p>
       </div>
       <div className="relative">
         <button className="btn-secondary" onClick={() => setOpen((value) => !value)}>

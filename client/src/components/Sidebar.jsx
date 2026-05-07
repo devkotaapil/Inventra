@@ -1,9 +1,10 @@
 import React from "react";
-import { BarChart3, Boxes, ClipboardList, Home, Lightbulb, PackageCheck, ReceiptText, TrendingUp } from "lucide-react";
+import { BarChart3, Boxes, ClipboardList, Home, Lightbulb, PackageCheck, ReceiptText, Shield, TrendingUp } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const links = [
-  ["/", "Dashboard", Home],
+  ["/dashboard", "Dashboard", Home],
   ["/products", "Products", Boxes],
   ["/inventory", "Inventory", PackageCheck],
   ["/sales", "Sales", ReceiptText],
@@ -13,11 +14,14 @@ const links = [
 ];
 
 export default function Sidebar() {
+  const { user } = useAuth();
+  const visibleLinks = user?.isAdmin ? [["/admin", "Admin", Shield]] : links;
+
   return (
     <aside className="bg-navy p-4 text-white lg:min-h-screen">
       <div className="mb-6 text-2xl font-black">Inventra</div>
       <nav className="flex gap-2 overflow-x-auto lg:grid">
-        {links.map(([to, label, Icon]) => (
+        {visibleLinks.map(([to, label, Icon]) => (
           <NavLink
             key={to}
             to={to}
@@ -34,4 +38,3 @@ export default function Sidebar() {
     </aside>
   );
 }
-

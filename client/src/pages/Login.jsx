@@ -10,13 +10,17 @@ const shopImage =
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "admin@inventra.com", password: "admin123" });
+  const [form, setForm] = useState({ email: "", password: "" });
 
   async function submit(e) {
     e.preventDefault();
-    await login(form.email, form.password);
-    toast.success("Logged in");
-    navigate("/");
+    try {
+      const user = await login(form.email, form.password);
+      toast.success("Logged in");
+      navigate(user?.isAdmin ? "/admin" : "/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login failed");
+    }
   }
 
   return (
@@ -28,7 +32,7 @@ export default function Login() {
               <Store />
             </div>
             <div>
-              <h1 className="text-3xl font-black">Inventra</h1>
+              <h1 className="text-3xl font-black"><Link to="/">Inventra</Link></h1>
               <p className="text-sm text-navy/60">Sign in to your shop workspace</p>
             </div>
           </div>

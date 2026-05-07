@@ -6,10 +6,21 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("inventra_token"));
   const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(Boolean(localStorage.getItem("inventra_token")));
 
   useEffect(() => {
-    if (!token) return;
-    api.get("/auth/me").then((res) => setUser(res.data.data)).catch(() => logout());
+    if (!token) {
+      setUser(null);
+      setAuthLoading(false);
+      return;
+    }
+
+    setAuthLoading(true);
+    api
+      .get("/auth/me")
+      .then((res) => setUser(res.data.data))
+      .catch(() => logout())
+      .finally(() => setAuthLoading(false));
   }, [token]);
 
   async function login(email, password) {
@@ -17,6 +28,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem("inventra_token", res.data.data.token);
     setToken(res.data.data.token);
     setUser(res.data.data.user);
+    return res.data.data.user;
   }
 
   async function register(payload) {
@@ -34,7 +46,10 @@ export function AuthProvider({ children }) {
     setUser(null);
   }
 
-  const value = useMemo(() => ({ token, user, login, register, updateProfile, logout, isAuthenticated: Boolean(token) }), [token, user]);
+  const value = useMemo(
+    () => ({ token, user, authLoading, login, register, updateProfile, logout, isAuthenticated: Boolean(token) }),
+    [token, user, authLoading]
+  );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

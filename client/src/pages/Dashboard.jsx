@@ -4,14 +4,17 @@ import { Boxes, CircleDollarSign, PackageMinus, ReceiptText } from "lucide-react
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import api from "../api/api";
 import KPICard from "../components/KPICard";
+import RecommendationList from "../components/RecommendationList";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({});
   const [trend, setTrend] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     api.get("/analytics/dashboard").then((res) => setStats(res.data.data));
     api.get("/analytics/revenue-trend").then((res) => setTrend(res.data.data));
+    api.get("/analytics/recommendations").then((res) => setRecommendations(res.data.data));
   }, []);
 
   return (
@@ -37,6 +40,16 @@ export default function Dashboard() {
             </LineChart>
           </ResponsiveContainer>
         </div>
+      </section>
+      <section className="card">
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="font-bold">Quiet stock notes</h2>
+            <p className="text-sm text-navy/50">A few suggestions worth checking before the shelf gets thin.</p>
+          </div>
+          <Link className="text-sm font-bold underline" to="/recommendations">View all</Link>
+        </div>
+        <RecommendationList items={recommendations} subtle />
       </section>
     </div>
   );

@@ -33,17 +33,26 @@ export default function Products() {
   return (
     <div className="grid gap-4">
       <form className="card grid gap-3 md:grid-cols-4" onSubmit={submit}>
-        <input className="input" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-        <input className="input" placeholder="Category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required />
-        <input className="input" placeholder="Unit" value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} />
-        <input className="input" placeholder="Initial stock" type="number" min="0" value={form.currentStock} onChange={(e) => setForm({ ...form, currentStock: e.target.value })} />
-        <input className="input" placeholder="Cost" type="number" min="0" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: e.target.value })} required />
-        <input className="input" placeholder="Price" type="number" min="0" value={form.sellingPrice} onChange={(e) => setForm({ ...form, sellingPrice: e.target.value })} required />
-        <input className="input" placeholder="Reorder point" type="number" min="0" value={form.reorderPoint} onChange={(e) => setForm({ ...form, reorderPoint: e.target.value })} />
-        <input className="input" placeholder="Reorder quantity" type="number" min="1" value={form.reorderQuantity} onChange={(e) => setForm({ ...form, reorderQuantity: e.target.value })} />
+        <Field label="Name"><input className="input" placeholder="Rice 5kg" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required /></Field>
+        <Field label="Category"><input className="input" placeholder="Grocery" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required /></Field>
+        <Field label="Unit"><input className="input" placeholder="pcs, bag, bottle" value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} /></Field>
+        <Field label="Initial stock"><input className="input" type="number" min="0" value={form.currentStock} onChange={(e) => setForm({ ...form, currentStock: e.target.value })} /></Field>
+        <Field label="Cost"><input className="input" type="number" min="0" value={form.costPrice} onChange={(e) => setForm({ ...form, costPrice: e.target.value })} required /></Field>
+        <Field label="Price"><input className="input" type="number" min="0" value={form.sellingPrice} onChange={(e) => setForm({ ...form, sellingPrice: e.target.value })} required /></Field>
+        <Field label="Reorder point"><input className="input" type="number" min="0" value={form.reorderPoint} onChange={(e) => setForm({ ...form, reorderPoint: e.target.value })} /></Field>
+        <Field label="Reorder quantity"><input className="input" type="number" min="1" value={form.reorderQuantity} onChange={(e) => setForm({ ...form, reorderQuantity: e.target.value })} /></Field>
         <button className="btn-primary md:col-span-4">Add Product</button>
       </form>
       <DataTable columns={["SKU", "Name", "Category", "Unit", "Price"]} rows={products} renderRow={(p) => [p.sku, p.name, p.category, p.unit, `Rs. ${p.sellingPrice}`]} />
     </div>
+  );
+}
+
+function Field({ label, children }) {
+  return (
+    <label className="grid gap-1 text-sm font-bold text-navy/70">
+      {label}
+      {children}
+    </label>
   );
 }
